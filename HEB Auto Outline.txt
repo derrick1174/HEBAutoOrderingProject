@@ -1,0 +1,57 @@
+HEB side starts with list of all products, list of all curbside timeslots and their availabilities, and
+potentially most recently completed order, plus user ids and such
+
+may need to allow a single user to schedule multiple automations? would need to follow regular
+curbside policy on multiple orders from single users, but excessive multiple parallel automated orders 
+should be discouraged to prevent abuse
+
+user indicates they want to opt-in to this auto ordering feature, starting with either their last
+order's cart or a blank one if they do not have a last order. possibly need to store a most recent
+automated order for if a user has previously used the autoprogram, withdrew, then wants to rejoin,
+but this may only be an uncommon convenience with too much overhead for its value
+
+user must still be able to use the curbside ordering system while an automated order is set, so 
+saving most recent automated orders separate from regular ones may be better, even with the added 
+overhead. user must be able to cancel automated orders in the same manner as nonautomated orders (user
+needs to be informed this will not cancel future automated orders unless that setting is changed elsewhere).
+user will be asked to allow two types of notifications if notifications are disabled, one for 
+confirmation of successful ideal orders (this notification is not required to be enabled, and will 
+occur X hours before pickup time, and X is chosen by the user and not larger than Y. Y is length of 
+time between two automated orders minus a reasonable maximum processing time Z for the program (ex. 
+orders on a two-week automation have a Y of two-weeks minus Z)) and one for nonideal orders (this 
+notification is suggested to be required, as user input is desired in this case, but the program will 
+work without this notification setting or user input on these errors)
+
+user has the option to add items to this initial cart, then confirm the new reoccuring cart order and
+the interval T it is ordered, and both ideal and acceptable timeslots 
+
+sanitize user timeslot input, making sure they added at least one acceptable time
+
+program should now run without user input unless errors occur or the user withdraws from the program
+
+reserve timeslot, which requires asking the HEB side for availabilities in the user's ideal timeslots
+(this should require locking the timeslot of edits until it is either determined to already be not 
+available or newly reserved as a result of this program taking a slot for this order),
+accepting any ideal reservation, checking acceptable timeslots if no ideal timeslots exist,
+and needing to confirm with the user for anything other than ideal (reservations are still tentatively
+made for timeslots within the preset acceptable times, but not outside them). User may be required to 
+cancel the automated order if no reservation can be made. if the user confirms a reservation when asked,
+the order is now considered ideal for this order only, but not future orders in these slots
+
+without user confirmation, nonideal but acceptable reservations are locked in 2.5 hours before the slot
+and now considered ideal for this order only, and nonacceptable orders are considered canceled for this
+order only at some A time, A being subject to experimentation but not longer than Y. A may be the 
+day before, 2.5 hours before the last acceptable timeslot in the automation period, 2.5 hours before 
+the last ideal timeslot in the automation period, or some other arbitrary number
+
+regular curbside pickup now occurs, including handling of errors by team members and potential 
+rescheduling of missed orders, but this should never impact the automated ordering program unless
+the user asks for a team member to withdraw the user from the automated program, which would need
+its own program for team members to do so
+
+at midnight after an automated order is scheduled to have been completed, regardless of rescheduling
+done by team members for later dates of orders due to users missing curbside pickup appointments, loop
+back to reserving the next timeslot for the next order following the user's T
+(this time after the pickup and before midnight may need to be figured into Z, but is only especially 
+important for daily orders, which may not be supported if it is determined that daily curbside orders 
+from single users are not allowed within the scope of the program)
