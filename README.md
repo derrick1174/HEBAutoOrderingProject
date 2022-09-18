@@ -1,6 +1,8 @@
 # HEBAutoOrderingProject
 A personal example project I attempted to integrate into an automatic ordering subsystem for HEB's Curbside system.
 
+This project is still currently underway.
+
 # Background 
 I made this while applying for an entry-level position at HEB's Digital branch. I came up with the idea while applying and wanting to solve a problem relevant to this application.
 
